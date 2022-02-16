@@ -44,7 +44,6 @@ sns.heatmap(df.isnull(),yticklabels=False)
 #dataset with less then 50% null count
 imp_index = null_precentage[null_precentage < 50].index.to_list()
 df1 = df[imp_index]
-df1['month'] = df.index.month
 
 
 #percentage of data is null
@@ -52,13 +51,12 @@ round((df1.isnull().sum() * 100) / 3808224 , 2).sort_values()
 
 
 # replacing nan values with respect to city
-df1.iloc[:,1:] = df1.groupby('station').transform(lambda x:x.fillna(x.mean()))
+df1.iloc[:,1:-1] = df1.groupby('station').transform(lambda x:x.fillna(x.mean()))
 sns.heatmap(df1.isnull(),yticklabels=False,cbar=False,cmap='viridis')
 
 
 # replacing nan values with respect to month
-df1.iloc[:,:-1] = df1.groupby('month').transform(lambda x:x.fillna(x.mean()))
+df1['month'] = df.index.month
+df1.iloc[:,1:-1] = df1.groupby('month').transform(lambda x:x.fillna(x.mean()))
+df1 = df1.drop('month',axis=1)
 sns.heatmap(df1.isnull(),yticklabels=False,cbar=False,cmap='viridis')
-
-
-df1.head()
