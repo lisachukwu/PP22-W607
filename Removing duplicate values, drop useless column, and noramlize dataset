@@ -1,0 +1,10 @@
+#remove duplicate values
+
+df1.drop_duplicates(keep=False,inplace=True)
+
+#drop unnecessary colunm
+df2 = df1.drop(colunms = ["name", "id"]) 
+
+#normalize dataset
+from sklearn.preprocessing import MinMaxScaler
+df2 = pd.DataFrame(scaler.fit_transform(df2), columns = df2.colunms)
